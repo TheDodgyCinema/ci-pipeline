@@ -21,4 +21,12 @@ Vagrant.configure("2") do |config|
       end
     end
   end
+
+  config.vm.define control do |control|
+    control.vm.provision "shell", inline: <<-SHELL
+      sudo yum install -y vim-enhanced.x86_64
+      sudo yum install -y git
+      sudo yum install -y ansible
+    SHELL
+  end
 end
