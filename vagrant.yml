@@ -1,10 +1,10 @@
 ---
 control:
-    name: cobra
-    ip_address: 192.168.140.85
+    cobra:
+      ip_address: 192.168.140.85
 build:
-    name: bigeye
-    ip_address: 192.168.140.86
+    bigeye:
+      ip_address: 192.168.140.86
 test:
-    name: trevally
-    ip_address: 192.168.140.87
+    trevally:
+      ip_address: 192.168.140.87
