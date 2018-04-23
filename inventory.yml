@@ -1,0 +1,13 @@
+---
+control:
+  hosts:
+    cobra:
+      ansible_host: 192.168.140.85
+build:
+  hosts:
+    bigeye:
+      ansible_host: 192.168.140.86
+test:
+  hosts:
+    trevally:
+      ansible_host: 192.168.140.87
