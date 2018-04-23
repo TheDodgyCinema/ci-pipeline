@@ -55,6 +55,7 @@ Vagrant.configure("2") do |config|
         ansible.playbook = "playbook.yml"
         ansible.inventory_path = "inventory.yml"
         ansible.groups = groups
+        ansible.become = "yes"
         limit = "all"
       end
     end
