@@ -52,12 +52,12 @@ Vagrant.configure("2") do |config|
         sudo yum install -y git
       SHELL
       control.vm.provision "ansible_local" do |ansible|
-        ansible.verbose = "vvvv"
         ansible.playbook = "playbook.yml"
         ansible.inventory_path = "inventory.yml"
         ansible.groups = groups
-        ansible.become = "yes"
         ansible.limit = "all"
+        ansible.become = true
+        ansible.become_user = "root"
       end
     end
   end
