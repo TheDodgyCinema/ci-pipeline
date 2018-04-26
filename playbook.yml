@@ -5,4 +5,8 @@
       yum:
         name=git
         state=present
+    - name: install maven
+      yum:
+        name=maven
+        state=present
 
