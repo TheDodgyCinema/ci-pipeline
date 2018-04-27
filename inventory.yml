@@ -3,7 +3,7 @@ build:
   hosts:
     bigeye:
       ansible_host: 192.168.140.86
-test:
+live:
   hosts:
     trevally:
       ansible_host: 192.168.140.87
