@@ -24,12 +24,10 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  # Copy over key pairs for sshing between machines
-  config.vm.provision "file", source: "id_rsa", destination: "/home/vagrant/.ssh/id_rsa"
+  # Set up public keys
   public_key = File.read("id_rsa.pub")
   config.vm.provision "shell", inline: <<-SHELL
-      echo 'Copying public SSH Keys to the VM'
-      mkdir -p /home/vagrant/.ssh
+      echo 'Copying public SSH key to the VM'
       chmod 700 /home/vagrant/.ssh
       echo '#{public_key}' >> /home/vagrant/.ssh/authorized_keys
       chmod -R 600 /home/vagrant/.ssh/authorized_keys
@@ -37,8 +35,12 @@ Vagrant.configure("2") do |config|
       echo 'StrictHostKeyChecking no' >> /home/vagrant/.ssh/config
       echo 'UserKnownHostsFile /dev/null' >> /home/vagrant/.ssh/config
       chmod -R 600 /home/vagrant/.ssh/config
-      echo 'Copying ssh key pair to root'
-      cp -r /home/vagrant/.ssh /root/.ssh
+    SHELL
+  # Set up private keys
+  config.vm.provision "file", source: "id_rsa", destination: "/home/vagrant/.ssh/id_rsa"
+  config.vm.provision "shell", inline: <<-SHELL
+      echo 'Setting private key permissions on the VM'
+      chmod -R 600 /home/vagrant/.ssh/id_rsa
     SHELL
 
   groups = Hash.new()
