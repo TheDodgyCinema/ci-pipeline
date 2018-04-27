@@ -1,8 +1,23 @@
 ---
 - hosts: build
+  vars:
+    jenkins_hostname: localhost
   tasks:
     - name: install git
       yum:
         name=git
         state=present
-
+    - name: install maven
+      yum:
+        name=maven
+        state=present
+    - name: start jenkins
+      service:
+        name: jenkins
+        state: started
+  roles:
+    - role: geerlingguy.java
+      when: "ansible_os_family == 'RedHat'"
+      java_packages:
+        - java-1.8.0-openjdk
+    - role: geerlingguy.jenkins
