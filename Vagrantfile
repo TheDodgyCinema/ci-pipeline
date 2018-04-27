@@ -56,6 +56,7 @@ Vagrant.configure("2") do |config|
       control.vm.provision "ansible_local" do |ansible|
         ansible.playbook = "playbook.yml"
         ansible.inventory_path = "inventory.yml"
+	ansible.galaxy_role_file = "requirements.yml"
         ansible.groups = groups
         ansible.limit = "all"
         ansible.become = true
