@@ -11,6 +11,10 @@
       yum:
         name=maven
         state=present
+    - name: start jenkins
+      service:
+        name: jenkins
+        state: started
   roles:
     - role: geerlingguy.java
       when: "ansible_os_family == 'RedHat'"
