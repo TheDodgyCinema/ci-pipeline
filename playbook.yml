@@ -15,6 +15,16 @@
       service:
         name: jenkins
         state: started
+    - name: install jenkins plugin github
+      jenkins_plugin:
+        name: github
+        url_username: admin
+        url_password: admin
+    - name: install jenkins plugin publish over ssh
+      jenkins_plugin:
+        name: publish-over-ssh
+        url_username: admin
+        url_password: admin
   roles:
     - role: geerlingguy.java
       when: "ansible_os_family == 'RedHat'"
