@@ -22,7 +22,7 @@ When set up properly, this set-up can be used to automatically build and deploy 
 - Run `vagrant up`
 - If it fails on installation of Jenkins plugins, run `vagrant provision` (this is a known bug)
 
-### Set up automatic building deployment
+### Set up build and deploy trigger
 - SSH into the build machine (`vagrant ssh YOUR_BUILD_MACHINE_NAME`)
 - Provide Jenkins with the ssh private key:
 ```
@@ -39,9 +39,13 @@ sudo chown jenkins:jenkins /var/lib/jenkins/.ssh/id_rsa
     - _Hostname_: `YOUR_LIVE_MACHINE_ADDRESS`
     - _Username_: `vagrant`
 - _Test Configuration_  and _Save_
-- Set up a new _Freestyle project_ with [automatic build triggers](https://wiki.jenkins.io/display/JENKINS/Building+a+software+project) (turn on _GitHub hook trigger for GITScm polling_)
-- _Add build step_ > _Invoke top-level Maven targets_ with Goals `clean install`
-- Add a new _Post-build Action_ > _Send build artifacts over SSH_:
-  - Source files: `**/*.war`
-  - Exec command: `sudo cp target/*.war /opt/wildfly/standalone/deployments/`
-- Press _Save_ then _Build Now_ to check that the app deploys correctly
+- Set up a new _Freestyle project_ (and remember its name, e.g. `YOUR_PROJECT_NAME`): 
+  - In _Source Code Management_, set the appropriate _Repository URL_, and set the _Branch Specifier_ to _**_ (or leave it blank)
+  - Configure the _[Build Triggers](https://wiki.jenkins.io/display/JENKINS/Building+a+software+project)_ to _Trigger builds remotely_ with the _Authentication Token_: `YOUR_APP_NAME`.
+  - _Add build step_ > _Invoke top-level Maven targets_ with Goals `clean install`
+  - Add a new _Post-build Action_ > _Send build artifacts over SSH_:
+    - Source files: `**/*.war`
+    - Exec command: `sudo cp target/*.war /opt/wildfly/standalone/deployments/`
+  - Press _Save_ then _Build Now_ to check that the app deploys correctly
+
+You should now be able to trigger the building and deployment of the last commit pushed to any branch of the GitHub repository by visiting `http://YOUR_BUILD_MACHINE_ADDRESS:8080/job/YOUR_PROJECT_NAME/build?token=YOUR_APP_NAME`.
